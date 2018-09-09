@@ -1,5 +1,26 @@
 #!/bin/sh
-find files ! -name "$(printf "*\n*")" -name '*.ts' > tmp
+
+check_tools(){
+  tools="ffmpeg"
+  for tool in $tools; do
+    if [ ! "$(command -v "$tool")" ]; then
+      printf "\e[1m%s\e[0m not found! Exiting....\n" "$tool"
+      exit 1
+    fi
+  done
+}
+
+check_tools
+
+find files ! -name "$(printf "*\n*")" -name '*.ts' > tmp 2> /dev/null
+
+if [ "$(cat tmp)" = "" ]; then
+  echo "Error: No files found! Exiting...."
+  exit 1
+fi
+
+mkdir -p "output"
+
 while IFS= read -r file; do
   count=$((count + 1))
   printf "Converting %s.... " "$file"
