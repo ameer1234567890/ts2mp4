@@ -12,10 +12,14 @@ check_tools(){
 
 check_tools
 
-find files ! -name "$(printf "*\n*")" -name '*.ts' > tmp 2> /dev/null
+{
+  find files ! -name "$(printf "*\n*")" -name '*.TS' 2> /dev/null
+  find files ! -name "$(printf "*\n*")" -name '*.ts' 2> /dev/null
+} > tmp
 
 if [ "$(cat tmp)" = "" ]; then
   echo "Error: No files found! Exiting...."
+  rm tmp
   exit 1
 fi
 
