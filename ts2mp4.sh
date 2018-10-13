@@ -1,6 +1,6 @@
 #!/bin/sh
 
-check_tools(){
+check_tools() {
   tools="ffmpeg"
   for tool in $tools; do
     if [ ! "$(command -v "$tool")" ]; then
@@ -13,9 +13,9 @@ check_tools(){
 check_tools
 
 {
-  find files ! -name "$(printf "*\n*")" -name '*.TS' 2> /dev/null
-  find files ! -name "$(printf "*\n*")" -name '*.ts' 2> /dev/null
-} > tmp
+  find files ! -name "$(printf "*\n*")" -name '*.TS' 2>/dev/null
+  find files ! -name "$(printf "*\n*")" -name '*.ts' 2>/dev/null
+} >tmp
 
 if [ "$(cat tmp)" = "" ]; then
   echo "Error: No files found! Exiting...."
@@ -32,7 +32,7 @@ while IFS= read -r file; do
   output_file="${output_file%.*}"
   output_ext=".mp4"
   output_file="$output_file$output_ext"
-  ffmpeg -hide_banner -loglevel panic -i "$file" -acodec copy -vcodec copy output/"$output_file" < /dev/null
+  ffmpeg -hide_banner -loglevel panic -i "$file" -acodec copy -vcodec copy output/"$output_file" </dev/null
   ffmpeg_status="$?"
   if [ "$ffmpeg_status" != 0 ]; then
     echo ""
@@ -41,6 +41,6 @@ while IFS= read -r file; do
   else
     echo "Done!"
   fi
-done < tmp
+done <tmp
 rm tmp
 echo "Converted $count files!"
