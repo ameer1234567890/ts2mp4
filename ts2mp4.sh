@@ -44,3 +44,6 @@ while IFS= read -r file; do
 done <tmp
 rm tmp
 echo "Converted $count files!"
+
+printf "Press enter to exit..."
+read -r
